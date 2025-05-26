@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 3.16)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+file(GLOB_RECURSE CXX_FILES "*.cc")
+
+foreach(CXX_FILE ${CXX_FILES})
+    get_filename_component(EXECUTABLE_NAME ${CXX_FILE} NAME_WE)
+    add_executable(${EXECUTABLE_NAME} ${CXX_FILE})
+    target_compile_options(${EXECUTABLE_NAME} PUBLIC "-libverbs")
+    target_link_libraries(${EXECUTABLE_NAME} PUBLIC flashreduce glog::glog "-libverbs" ${SANITIZER_LIBRARIES})
+endforeach()
