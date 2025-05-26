@@ -1,6 +1,16 @@
 #pragma once
+#include "get_clock.h"
 #include <pthread.h>
 #include <cstdint>
+#include <infiniband/verbs.h>
+struct RDMAEndpoint {
+    struct ibv_cq* cq;
+    int available_wqes;
+    struct ibv_qp* qp;
+    struct ibv_recv_wr recv_wr;
+    struct ibv_sge sge;
+    struct ibv_send_wr send_wr;
+};
 
 enum ProxyOpState {
     ProxyOpNone,
@@ -16,6 +26,12 @@ struct ProxyArgs {
     ProxyArgs** proxyTail;
     struct ProxyArgs* next;
     struct ProxyArgs* nextPeer;
+    struct RDMAEndpoint endpoint;
+    int iterations;
+    cycles_t startTick;
+    cycles_t endTick;
+    int first_completion;
+    int count;
 };
 struct ProxyHandler {
     pthread_t proxyThread;
