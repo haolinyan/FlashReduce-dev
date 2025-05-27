@@ -1,5 +1,5 @@
 /*
-LD_LIBRARY_PATH=/usr/local/grpc/lib ./build/examples/grpc_barrier_test 
+LD_LIBRARY_PATH=/usr/local/grpc/lib ./build/examples/grpc_test 
 */
 #include "grpc_client.h"
 #include "rdma_utils.h"
