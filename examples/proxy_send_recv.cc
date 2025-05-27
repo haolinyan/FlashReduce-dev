@@ -5,6 +5,7 @@
 #include "socket_endpoint.h"
 #include <infiniband/verbs.h>
 #include <ostream>
+#include <cstring>
 #include "get_clock.h"
 
 void send_benchmark(ProxyArgs *args)

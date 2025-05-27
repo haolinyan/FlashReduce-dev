@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package flashreduce_proto;
+
+service Session {
+  rpc RdmaSession (RdmaSessionRequest) returns (RdmaSessionResponse) {}
+}
+
+service Sync {
+  rpc Barrier(BarrierRequest) returns (BarrierResponse) {}
+  rpc Broadcast(BroadcastRequest) returns (BroadcastResponse) {}
+}
+
+enum PacketSize {
+  MTU_256  = 0;
+  MTU_1024 = 1;
+}
+
+message RdmaSessionRequest {
+  uint32 session_id = 1;
+  uint32 rank = 2;
+  uint32 num_workers = 3;
+  uint64 mac = 4;
+  uint32 ipv4 = 5;
+  uint32 rkey = 6;
+  PacketSize packet_size = 7;
+  uint32 message_size = 8;
+  repeated uint32 qpns = 9;
+  repeated uint32 psns = 10;
+}
+
+message RdmaSessionResponse {
+  uint64 session_id = 1;
+  uint64 mac = 2;
+  uint32 ipv4 = 3;
+  uint32 rkey = 4;
+  repeated uint32 qpns = 5;
+  repeated uint32 psns = 6;
+}
+
+message BarrierRequest {
+  uint32 num_workers = 1;
+}
+
+message BarrierResponse {
+}
+
+message BroadcastRequest {
+  uint64 value = 1;
+  uint32 rank = 2;
+  uint32 num_workers = 3;
+  uint32 root = 4;
+}
+
+message BroadcastResponse {
+  uint64 value = 1;
+}

@@ -1,4 +1,5 @@
 #include "rdma_utils.h"
+#include <cstring>
 
 const int kMinRnrTimer = 0x12;
 const int kTimeout = 14;

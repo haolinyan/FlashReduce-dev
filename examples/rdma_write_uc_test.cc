@@ -8,6 +8,7 @@
 #include <infiniband/verbs.h>
 #include <glog/logging.h>
 #include <ostream>
+#include <cstring>
 #include "get_clock.h"
 
 void send_benchmark(struct ibv_send_wr *send_wr, struct ibv_qp *qp, struct ibv_cq *cq, int iterations, int available_wqes)

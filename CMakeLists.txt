@@ -31,15 +31,26 @@ if (DEFINED ENV{ENABLE_SANITIZER})
 endif()
 
 find_package (glog REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
+message(STATUS "Found Protobuf: ${Protobuf_VERSION}")
+find_package(gRPC CONFIG REQUIRED)
+message(STATUS "Found gRPC: ${gRPC_VERSION}")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/csrc)
+get_target_property(PROTOBUF_INCLUDE_DIR protobuf::libprotobuf INTERFACE_INCLUDE_DIRECTORIES)
+message(STATUS "Protobuf include directory: ${PROTOBUF_INCLUDE_DIR}")
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/csrc ${PROTOBUF_INCLUDE_DIR})
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/csrc/*.cc)
 add_library(flashreduce SHARED ${sources})
 target_compile_options(flashreduce PUBLIC "-libverbs")
 
-if (DEFINED ENV{ENABLE_SANITIZER} AND CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_link_libraries(flashreduce PUBLIC glog::glog "-libverbs" ${SANITIZER_LIBRARIES})
-else()
-    target_link_libraries(flashreduce PUBLIC glog::glog "-libverbs")
-endif()
+target_link_libraries(flashreduce PUBLIC
+    glog::glog
+    "-libverbs"
+    protobuf::libprotobuf
+    gRPC::grpc++
+    gRPC::grpc++_reflection
+    ${SANITIZER_LIBRARIES}
+)
+
 add_subdirectory(examples)
