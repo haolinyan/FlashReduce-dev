@@ -28,14 +28,13 @@ namespace flashreduce_proto {
 
 inline constexpr RdmaSessionResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : qpns_{},
-        _qpns_cached_byte_size_{0},
-        psns_{},
-        _psns_cached_byte_size_{0},
-        session_id_{::uint64_t{0u}},
-        mac_{::uint64_t{0u}},
-        ipv4_{0u},
+      : raddr_{::uint64_t{0u}},
         rkey_{0u},
+        qpn_{0u},
+        psn_{0u},
+        lid_{0u},
+        gid_subnet_{::uint64_t{0u}},
+        gid_iface_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
@@ -60,18 +59,19 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr RdmaSessionRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : qpns_{},
-        _qpns_cached_byte_size_{0},
-        psns_{},
-        _psns_cached_byte_size_{0},
-        session_id_{0u},
+      : session_id_{0u},
         rank_{0u},
-        mac_{::uint64_t{0u}},
         num_workers_{0u},
+        root_{0u},
+        mac_{::uint64_t{0u}},
         ipv4_{0u},
         rkey_{0u},
-        packet_size_{static_cast< ::flashreduce_proto::PacketSize >(0)},
-        message_size_{0u},
+        raddr_{::uint64_t{0u}},
+        qpn_{0u},
+        psn_{0u},
+        gid_subnet_{::uint64_t{0u}},
+        gid_iface_{::uint64_t{0u}},
+        lid_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -190,7 +190,8 @@ struct BarrierRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BarrierRequestDefaultTypeInternal _BarrierRequest_default_instance_;
 }  // namespace flashreduce_proto
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_flashreduce_2eproto[1];
+static constexpr const ::_pb::EnumDescriptor**
+    file_level_enum_descriptors_flashreduce_2eproto = nullptr;
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_flashreduce_2eproto = nullptr;
 const ::uint32_t
@@ -207,13 +208,16 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.session_id_),
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.rank_),
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.num_workers_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.root_),
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.mac_),
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.ipv4_),
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.rkey_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.packet_size_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.message_size_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.qpns_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.psns_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.raddr_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.qpn_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.psn_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.gid_subnet_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.gid_iface_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionRequest, _impl_.lid_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -222,12 +226,13 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.session_id_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.mac_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.ipv4_),
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.rkey_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.qpns_),
-        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.psns_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.raddr_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.qpn_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.psn_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.gid_subnet_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.gid_iface_),
+        PROTOBUF_FIELD_OFFSET(::flashreduce_proto::RdmaSessionResponse, _impl_.lid_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::flashreduce_proto::BarrierRequest, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -271,11 +276,11 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::flashreduce_proto::RdmaSessionRequest)},
-        {18, -1, -1, sizeof(::flashreduce_proto::RdmaSessionResponse)},
-        {32, -1, -1, sizeof(::flashreduce_proto::BarrierRequest)},
-        {41, -1, -1, sizeof(::flashreduce_proto::BarrierResponse)},
-        {49, -1, -1, sizeof(::flashreduce_proto::BroadcastRequest)},
-        {61, -1, -1, sizeof(::flashreduce_proto::BroadcastResponse)},
+        {21, -1, -1, sizeof(::flashreduce_proto::RdmaSessionResponse)},
+        {36, -1, -1, sizeof(::flashreduce_proto::BarrierRequest)},
+        {45, -1, -1, sizeof(::flashreduce_proto::BarrierResponse)},
+        {53, -1, -1, sizeof(::flashreduce_proto::BroadcastRequest)},
+        {65, -1, -1, sizeof(::flashreduce_proto::BroadcastResponse)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::flashreduce_proto::_RdmaSessionRequest_default_instance_._instance,
@@ -287,35 +292,34 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_flashreduce_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\021flashreduce.proto\022\021flashreduce_proto\"\332"
+    "\n\021flashreduce.proto\022\021flashreduce_proto\"\337"
     "\001\n\022RdmaSessionRequest\022\022\n\nsession_id\030\001 \001("
-    "\r\022\014\n\004rank\030\002 \001(\r\022\023\n\013num_workers\030\003 \001(\r\022\013\n\003"
-    "mac\030\004 \001(\004\022\014\n\004ipv4\030\005 \001(\r\022\014\n\004rkey\030\006 \001(\r\0222\n"
-    "\013packet_size\030\007 \001(\0162\035.flashreduce_proto.P"
-    "acketSize\022\024\n\014message_size\030\010 \001(\r\022\014\n\004qpns\030"
-    "\t \003(\r\022\014\n\004psns\030\n \003(\r\"n\n\023RdmaSessionRespon"
-    "se\022\022\n\nsession_id\030\001 \001(\004\022\013\n\003mac\030\002 \001(\004\022\014\n\004i"
-    "pv4\030\003 \001(\r\022\014\n\004rkey\030\004 \001(\r\022\014\n\004qpns\030\005 \003(\r\022\014\n"
-    "\004psns\030\006 \003(\r\"%\n\016BarrierRequest\022\023\n\013num_wor"
-    "kers\030\001 \001(\r\"\021\n\017BarrierResponse\"R\n\020Broadca"
-    "stRequest\022\r\n\005value\030\001 \001(\004\022\014\n\004rank\030\002 \001(\r\022\023"
-    "\n\013num_workers\030\003 \001(\r\022\014\n\004root\030\004 \001(\r\"\"\n\021Bro"
-    "adcastResponse\022\r\n\005value\030\001 \001(\004*\'\n\nPacketS"
-    "ize\022\013\n\007MTU_256\020\000\022\014\n\010MTU_1024\020\0012i\n\007Sessio"
-    "n\022^\n\013RdmaSession\022%.flashreduce_proto.Rdm"
-    "aSessionRequest\032&.flashreduce_proto.Rdma"
-    "SessionResponse\"\0002\264\001\n\004Sync\022R\n\007Barrier\022!."
-    "flashreduce_proto.BarrierRequest\032\".flash"
-    "reduce_proto.BarrierResponse\"\000\022X\n\tBroadc"
-    "ast\022#.flashreduce_proto.BroadcastRequest"
-    "\032$.flashreduce_proto.BroadcastResponse\"\000"
-    "b\006proto3"
+    "\r\022\014\n\004rank\030\002 \001(\r\022\023\n\013num_workers\030\003 \001(\r\022\014\n\004"
+    "root\030\004 \001(\r\022\013\n\003mac\030\005 \001(\004\022\014\n\004ipv4\030\006 \001(\r\022\014\n"
+    "\004rkey\030\007 \001(\r\022\r\n\005raddr\030\010 \001(\004\022\013\n\003qpn\030\t \001(\r\022"
+    "\013\n\003psn\030\n \001(\r\022\022\n\ngid_subnet\030\013 \001(\004\022\021\n\tgid_"
+    "iface\030\014 \001(\004\022\013\n\003lid\030\r \001(\r\"\200\001\n\023RdmaSession"
+    "Response\022\014\n\004rkey\030\002 \001(\r\022\r\n\005raddr\030\003 \001(\004\022\013\n"
+    "\003qpn\030\004 \001(\r\022\013\n\003psn\030\005 \001(\r\022\022\n\ngid_subnet\030\r "
+    "\001(\004\022\021\n\tgid_iface\030\016 \001(\004\022\013\n\003lid\030\017 \001(\r\"%\n\016B"
+    "arrierRequest\022\023\n\013num_workers\030\001 \001(\r\"\021\n\017Ba"
+    "rrierResponse\"R\n\020BroadcastRequest\022\r\n\005val"
+    "ue\030\001 \001(\004\022\014\n\004rank\030\002 \001(\r\022\023\n\013num_workers\030\003 "
+    "\001(\r\022\014\n\004root\030\004 \001(\r\"\"\n\021BroadcastResponse\022\r"
+    "\n\005value\030\001 \001(\0042i\n\007Session\022^\n\013RdmaSession\022"
+    "%.flashreduce_proto.RdmaSessionRequest\032&"
+    ".flashreduce_proto.RdmaSessionResponse\"\000"
+    "2\264\001\n\004Sync\022R\n\007Barrier\022!.flashreduce_proto"
+    ".BarrierRequest\032\".flashreduce_proto.Barr"
+    "ierResponse\"\000\022X\n\tBroadcast\022#.flashreduce"
+    "_proto.BroadcastRequest\032$.flashreduce_pr"
+    "oto.BroadcastResponse\"\000b\006proto3"
 };
 static ::absl::once_flag descriptor_table_flashreduce_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_flashreduce_2eproto = {
     false,
     false,
-    888,
+    871,
     descriptor_table_protodef_flashreduce_2eproto,
     "flashreduce.proto",
     &descriptor_table_flashreduce_2eproto_once,
@@ -329,15 +333,6 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_flashreduce_2e
     file_level_service_descriptors_flashreduce_2eproto,
 };
 namespace flashreduce_proto {
-const ::google::protobuf::EnumDescriptor* PacketSize_descriptor() {
-  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_flashreduce_2eproto);
-  return file_level_enum_descriptors_flashreduce_2eproto[0];
-}
-PROTOBUF_CONSTINIT const uint32_t PacketSize_internal_data_[] = {
-    131072u, 0u, };
-bool PacketSize_IsValid(int value) {
-  return 0 <= value && value <= 1;
-}
 // ===================================================================
 
 class RdmaSessionRequest::_Internal {
@@ -353,55 +348,24 @@ RdmaSessionRequest::RdmaSessionRequest(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:flashreduce_proto.RdmaSessionRequest)
 }
-inline PROTOBUF_NDEBUG_INLINE RdmaSessionRequest::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::flashreduce_proto::RdmaSessionRequest& from_msg)
-      : qpns_{visibility, arena, from.qpns_},
-        _qpns_cached_byte_size_{0},
-        psns_{visibility, arena, from.psns_},
-        _psns_cached_byte_size_{0},
-        _cached_size_{0} {}
-
 RdmaSessionRequest::RdmaSessionRequest(
-    ::google::protobuf::Arena* arena,
-    const RdmaSessionRequest& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  RdmaSessionRequest* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, session_id_),
-           reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, session_id_),
-           offsetof(Impl_, message_size_) -
-               offsetof(Impl_, session_id_) +
-               sizeof(Impl_::message_size_));
-
-  // @@protoc_insertion_point(copy_constructor:flashreduce_proto.RdmaSessionRequest)
+    ::google::protobuf::Arena* arena, const RdmaSessionRequest& from)
+    : RdmaSessionRequest(arena) {
+  MergeFrom(from);
 }
 inline PROTOBUF_NDEBUG_INLINE RdmaSessionRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : qpns_{visibility, arena},
-        _qpns_cached_byte_size_{0},
-        psns_{visibility, arena},
-        _psns_cached_byte_size_{0},
-        _cached_size_{0} {}
+      : _cached_size_{0} {}
 
 inline void RdmaSessionRequest::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, session_id_),
            0,
-           offsetof(Impl_, message_size_) -
+           offsetof(Impl_, lid_) -
                offsetof(Impl_, session_id_) +
-               sizeof(Impl_::message_size_));
+               sizeof(Impl_::lid_));
 }
 RdmaSessionRequest::~RdmaSessionRequest() {
   // @@protoc_insertion_point(destructor:flashreduce_proto.RdmaSessionRequest)
@@ -419,24 +383,8 @@ inline void* RdmaSessionRequest::PlacementNew_(const void*, void* mem,
   return ::new (mem) RdmaSessionRequest(arena);
 }
 constexpr auto RdmaSessionRequest::InternalNewImpl_() {
-  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
-      PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.qpns_) +
-          decltype(RdmaSessionRequest::_impl_.qpns_)::
-              InternalGetArenaOffset(
-                  ::google::protobuf::Message::internal_visibility()),
-      PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.psns_) +
-          decltype(RdmaSessionRequest::_impl_.psns_)::
-              InternalGetArenaOffset(
-                  ::google::protobuf::Message::internal_visibility()),
-  });
-  if (arena_bits.has_value()) {
-    return ::google::protobuf::internal::MessageCreator::ZeroInit(
-        sizeof(RdmaSessionRequest), alignof(RdmaSessionRequest), *arena_bits);
-  } else {
-    return ::google::protobuf::internal::MessageCreator(&RdmaSessionRequest::PlacementNew_,
-                                 sizeof(RdmaSessionRequest),
-                                 alignof(RdmaSessionRequest));
-  }
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(RdmaSessionRequest),
+                                            alignof(RdmaSessionRequest));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
@@ -466,15 +414,15 @@ const ::google::protobuf::internal::ClassData* RdmaSessionRequest::GetClassData(
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 10, 0, 0, 2> RdmaSessionRequest::_table_ = {
+const ::_pbi::TcParseTable<4, 13, 0, 0, 2> RdmaSessionRequest::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    10, 120,  // max_field_number, fast_idx_mask
+    13, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966272,  // skipmap
+    4294959104,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    10,  // num_field_entries
+    13,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -494,30 +442,36 @@ const ::_pbi::TcParseTable<4, 10, 0, 0, 2> RdmaSessionRequest::_table_ = {
     // uint32 num_workers = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.num_workers_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.num_workers_)}},
-    // uint64 mac = 4;
+    // uint32 root = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.root_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.root_)}},
+    // uint64 mac = 5;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionRequest, _impl_.mac_), 63>(),
-     {32, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.mac_)}},
-    // uint32 ipv4 = 5;
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.mac_)}},
+    // uint32 ipv4 = 6;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.ipv4_), 63>(),
-     {40, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.ipv4_)}},
-    // uint32 rkey = 6;
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.ipv4_)}},
+    // uint32 rkey = 7;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.rkey_), 63>(),
-     {48, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.rkey_)}},
-    // .flashreduce_proto.PacketSize packet_size = 7;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.packet_size_), 63>(),
-     {56, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.packet_size_)}},
-    // uint32 message_size = 8;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.message_size_), 63>(),
-     {64, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.message_size_)}},
-    // repeated uint32 qpns = 9;
-    {::_pbi::TcParser::FastV32P1,
-     {74, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.qpns_)}},
-    // repeated uint32 psns = 10;
-    {::_pbi::TcParser::FastV32P1,
-     {82, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.psns_)}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
+     {56, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.rkey_)}},
+    // uint64 raddr = 8;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionRequest, _impl_.raddr_), 63>(),
+     {64, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.raddr_)}},
+    // uint32 qpn = 9;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.qpn_), 63>(),
+     {72, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.qpn_)}},
+    // uint32 psn = 10;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.psn_), 63>(),
+     {80, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.psn_)}},
+    // uint64 gid_subnet = 11;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionRequest, _impl_.gid_subnet_), 63>(),
+     {88, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.gid_subnet_)}},
+    // uint64 gid_iface = 12;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionRequest, _impl_.gid_iface_), 63>(),
+     {96, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.gid_iface_)}},
+    // uint32 lid = 13;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionRequest, _impl_.lid_), 63>(),
+     {104, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.lid_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
@@ -532,27 +486,36 @@ const ::_pbi::TcParseTable<4, 10, 0, 0, 2> RdmaSessionRequest::_table_ = {
     // uint32 num_workers = 3;
     {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.num_workers_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint64 mac = 4;
+    // uint32 root = 4;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.root_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 mac = 5;
     {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.mac_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // uint32 ipv4 = 5;
+    // uint32 ipv4 = 6;
     {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.ipv4_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint32 rkey = 6;
+    // uint32 rkey = 7;
     {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.rkey_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // .flashreduce_proto.PacketSize packet_size = 7;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.packet_size_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // uint32 message_size = 8;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.message_size_), 0, 0,
+    // uint64 raddr = 8;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.raddr_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint32 qpn = 9;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.qpn_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // repeated uint32 qpns = 9;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.qpns_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kPackedUInt32)},
-    // repeated uint32 psns = 10;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.psns_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kPackedUInt32)},
+    // uint32 psn = 10;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.psn_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 gid_subnet = 11;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.gid_subnet_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 gid_iface = 12;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.gid_iface_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint32 lid = 13;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.lid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
   // no aux_entries
   {{
@@ -566,11 +529,9 @@ PROTOBUF_NOINLINE void RdmaSessionRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.qpns_.Clear();
-  _impl_.psns_.Clear();
   ::memset(&_impl_.session_id_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.message_size_) -
-      reinterpret_cast<char*>(&_impl_.session_id_)) + sizeof(_impl_.message_size_));
+      reinterpret_cast<char*>(&_impl_.lid_) -
+      reinterpret_cast<char*>(&_impl_.session_id_)) + sizeof(_impl_.lid_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -610,57 +571,74 @@ PROTOBUF_NOINLINE void RdmaSessionRequest::Clear() {
                 3, this_._internal_num_workers(), target);
           }
 
-          // uint64 mac = 4;
+          // uint32 root = 4;
+          if (this_._internal_root() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                4, this_._internal_root(), target);
+          }
+
+          // uint64 mac = 5;
           if (this_._internal_mac() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                4, this_._internal_mac(), target);
+                5, this_._internal_mac(), target);
           }
 
-          // uint32 ipv4 = 5;
+          // uint32 ipv4 = 6;
           if (this_._internal_ipv4() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                5, this_._internal_ipv4(), target);
+                6, this_._internal_ipv4(), target);
           }
 
-          // uint32 rkey = 6;
+          // uint32 rkey = 7;
           if (this_._internal_rkey() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                6, this_._internal_rkey(), target);
+                7, this_._internal_rkey(), target);
           }
 
-          // .flashreduce_proto.PacketSize packet_size = 7;
-          if (this_._internal_packet_size() != 0) {
+          // uint64 raddr = 8;
+          if (this_._internal_raddr() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteEnumToArray(
-                7, this_._internal_packet_size(), target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                8, this_._internal_raddr(), target);
           }
 
-          // uint32 message_size = 8;
-          if (this_._internal_message_size() != 0) {
+          // uint32 qpn = 9;
+          if (this_._internal_qpn() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                8, this_._internal_message_size(), target);
+                9, this_._internal_qpn(), target);
           }
 
-          // repeated uint32 qpns = 9;
-          {
-            int byte_size = this_._impl_._qpns_cached_byte_size_.Get();
-            if (byte_size > 0) {
-              target = stream->WriteUInt32Packed(
-                  9, this_._internal_qpns(), byte_size, target);
-            }
+          // uint32 psn = 10;
+          if (this_._internal_psn() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                10, this_._internal_psn(), target);
           }
 
-          // repeated uint32 psns = 10;
-          {
-            int byte_size = this_._impl_._psns_cached_byte_size_.Get();
-            if (byte_size > 0) {
-              target = stream->WriteUInt32Packed(
-                  10, this_._internal_psns(), byte_size, target);
-            }
+          // uint64 gid_subnet = 11;
+          if (this_._internal_gid_subnet() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                11, this_._internal_gid_subnet(), target);
+          }
+
+          // uint64 gid_iface = 12;
+          if (this_._internal_gid_iface() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                12, this_._internal_gid_iface(), target);
+          }
+
+          // uint32 lid = 13;
+          if (this_._internal_lid() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                13, this_._internal_lid(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -688,22 +666,6 @@ PROTOBUF_NOINLINE void RdmaSessionRequest::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated uint32 qpns = 9;
-            {
-              total_size +=
-                  ::_pbi::WireFormatLite::UInt32SizeWithPackedTagSize(
-                      this_._internal_qpns(), 1,
-                      this_._impl_._qpns_cached_byte_size_);
-            }
-            // repeated uint32 psns = 10;
-            {
-              total_size +=
-                  ::_pbi::WireFormatLite::UInt32SizeWithPackedTagSize(
-                      this_._internal_psns(), 1,
-                      this_._impl_._psns_cached_byte_size_);
-            }
-          }
-           {
             // uint32 session_id = 1;
             if (this_._internal_session_id() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
@@ -714,35 +676,60 @@ PROTOBUF_NOINLINE void RdmaSessionRequest::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_rank());
             }
-            // uint64 mac = 4;
-            if (this_._internal_mac() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                  this_._internal_mac());
-            }
             // uint32 num_workers = 3;
             if (this_._internal_num_workers() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_num_workers());
             }
-            // uint32 ipv4 = 5;
+            // uint32 root = 4;
+            if (this_._internal_root() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_root());
+            }
+            // uint64 mac = 5;
+            if (this_._internal_mac() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_mac());
+            }
+            // uint32 ipv4 = 6;
             if (this_._internal_ipv4() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_ipv4());
             }
-            // uint32 rkey = 6;
+            // uint32 rkey = 7;
             if (this_._internal_rkey() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_rkey());
             }
-            // .flashreduce_proto.PacketSize packet_size = 7;
-            if (this_._internal_packet_size() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_packet_size());
+            // uint64 raddr = 8;
+            if (this_._internal_raddr() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_raddr());
             }
-            // uint32 message_size = 8;
-            if (this_._internal_message_size() != 0) {
+            // uint32 qpn = 9;
+            if (this_._internal_qpn() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-                  this_._internal_message_size());
+                  this_._internal_qpn());
+            }
+            // uint32 psn = 10;
+            if (this_._internal_psn() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_psn());
+            }
+            // uint64 gid_subnet = 11;
+            if (this_._internal_gid_subnet() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_gid_subnet());
+            }
+            // uint64 gid_iface = 12;
+            if (this_._internal_gid_iface() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_gid_iface());
+            }
+            // uint32 lid = 13;
+            if (this_._internal_lid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_lid());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -757,19 +744,20 @@ void RdmaSessionRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, cons
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_qpns()->MergeFrom(from._internal_qpns());
-  _this->_internal_mutable_psns()->MergeFrom(from._internal_psns());
   if (from._internal_session_id() != 0) {
     _this->_impl_.session_id_ = from._impl_.session_id_;
   }
   if (from._internal_rank() != 0) {
     _this->_impl_.rank_ = from._impl_.rank_;
   }
-  if (from._internal_mac() != 0) {
-    _this->_impl_.mac_ = from._impl_.mac_;
-  }
   if (from._internal_num_workers() != 0) {
     _this->_impl_.num_workers_ = from._impl_.num_workers_;
+  }
+  if (from._internal_root() != 0) {
+    _this->_impl_.root_ = from._impl_.root_;
+  }
+  if (from._internal_mac() != 0) {
+    _this->_impl_.mac_ = from._impl_.mac_;
   }
   if (from._internal_ipv4() != 0) {
     _this->_impl_.ipv4_ = from._impl_.ipv4_;
@@ -777,11 +765,23 @@ void RdmaSessionRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, cons
   if (from._internal_rkey() != 0) {
     _this->_impl_.rkey_ = from._impl_.rkey_;
   }
-  if (from._internal_packet_size() != 0) {
-    _this->_impl_.packet_size_ = from._impl_.packet_size_;
+  if (from._internal_raddr() != 0) {
+    _this->_impl_.raddr_ = from._impl_.raddr_;
   }
-  if (from._internal_message_size() != 0) {
-    _this->_impl_.message_size_ = from._impl_.message_size_;
+  if (from._internal_qpn() != 0) {
+    _this->_impl_.qpn_ = from._impl_.qpn_;
+  }
+  if (from._internal_psn() != 0) {
+    _this->_impl_.psn_ = from._impl_.psn_;
+  }
+  if (from._internal_gid_subnet() != 0) {
+    _this->_impl_.gid_subnet_ = from._impl_.gid_subnet_;
+  }
+  if (from._internal_gid_iface() != 0) {
+    _this->_impl_.gid_iface_ = from._impl_.gid_iface_;
+  }
+  if (from._internal_lid() != 0) {
+    _this->_impl_.lid_ = from._impl_.lid_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -797,11 +797,9 @@ void RdmaSessionRequest::CopyFrom(const RdmaSessionRequest& from) {
 void RdmaSessionRequest::InternalSwap(RdmaSessionRequest* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.qpns_.InternalSwap(&other->_impl_.qpns_);
-  _impl_.psns_.InternalSwap(&other->_impl_.psns_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.message_size_)
-      + sizeof(RdmaSessionRequest::_impl_.message_size_)
+      PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.lid_)
+      + sizeof(RdmaSessionRequest::_impl_.lid_)
       - PROTOBUF_FIELD_OFFSET(RdmaSessionRequest, _impl_.session_id_)>(
           reinterpret_cast<char*>(&_impl_.session_id_),
           reinterpret_cast<char*>(&other->_impl_.session_id_));
@@ -825,55 +823,24 @@ RdmaSessionResponse::RdmaSessionResponse(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:flashreduce_proto.RdmaSessionResponse)
 }
-inline PROTOBUF_NDEBUG_INLINE RdmaSessionResponse::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::flashreduce_proto::RdmaSessionResponse& from_msg)
-      : qpns_{visibility, arena, from.qpns_},
-        _qpns_cached_byte_size_{0},
-        psns_{visibility, arena, from.psns_},
-        _psns_cached_byte_size_{0},
-        _cached_size_{0} {}
-
 RdmaSessionResponse::RdmaSessionResponse(
-    ::google::protobuf::Arena* arena,
-    const RdmaSessionResponse& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  RdmaSessionResponse* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, session_id_),
-           reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, session_id_),
-           offsetof(Impl_, rkey_) -
-               offsetof(Impl_, session_id_) +
-               sizeof(Impl_::rkey_));
-
-  // @@protoc_insertion_point(copy_constructor:flashreduce_proto.RdmaSessionResponse)
+    ::google::protobuf::Arena* arena, const RdmaSessionResponse& from)
+    : RdmaSessionResponse(arena) {
+  MergeFrom(from);
 }
 inline PROTOBUF_NDEBUG_INLINE RdmaSessionResponse::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : qpns_{visibility, arena},
-        _qpns_cached_byte_size_{0},
-        psns_{visibility, arena},
-        _psns_cached_byte_size_{0},
-        _cached_size_{0} {}
+      : _cached_size_{0} {}
 
 inline void RdmaSessionResponse::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, session_id_),
+               offsetof(Impl_, raddr_),
            0,
-           offsetof(Impl_, rkey_) -
-               offsetof(Impl_, session_id_) +
-               sizeof(Impl_::rkey_));
+           offsetof(Impl_, gid_iface_) -
+               offsetof(Impl_, raddr_) +
+               sizeof(Impl_::gid_iface_));
 }
 RdmaSessionResponse::~RdmaSessionResponse() {
   // @@protoc_insertion_point(destructor:flashreduce_proto.RdmaSessionResponse)
@@ -891,24 +858,8 @@ inline void* RdmaSessionResponse::PlacementNew_(const void*, void* mem,
   return ::new (mem) RdmaSessionResponse(arena);
 }
 constexpr auto RdmaSessionResponse::InternalNewImpl_() {
-  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
-      PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.qpns_) +
-          decltype(RdmaSessionResponse::_impl_.qpns_)::
-              InternalGetArenaOffset(
-                  ::google::protobuf::Message::internal_visibility()),
-      PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.psns_) +
-          decltype(RdmaSessionResponse::_impl_.psns_)::
-              InternalGetArenaOffset(
-                  ::google::protobuf::Message::internal_visibility()),
-  });
-  if (arena_bits.has_value()) {
-    return ::google::protobuf::internal::MessageCreator::ZeroInit(
-        sizeof(RdmaSessionResponse), alignof(RdmaSessionResponse), *arena_bits);
-  } else {
-    return ::google::protobuf::internal::MessageCreator(&RdmaSessionResponse::PlacementNew_,
-                                 sizeof(RdmaSessionResponse),
-                                 alignof(RdmaSessionResponse));
-  }
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(RdmaSessionResponse),
+                                            alignof(RdmaSessionResponse));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
@@ -938,15 +889,15 @@ const ::google::protobuf::internal::ClassData* RdmaSessionResponse::GetClassData
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 0, 0, 2> RdmaSessionResponse::_table_ = {
+const ::_pbi::TcParseTable<3, 7, 0, 0, 2> RdmaSessionResponse::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    6, 56,  // max_field_number, fast_idx_mask
+    15, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294938593,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
+    7,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -957,46 +908,49 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> RdmaSessionResponse::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // uint64 session_id = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionResponse, _impl_.session_id_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.session_id_)}},
-    // uint64 mac = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionResponse, _impl_.mac_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.mac_)}},
-    // uint32 ipv4 = 3;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionResponse, _impl_.ipv4_), 63>(),
-     {24, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.ipv4_)}},
-    // uint32 rkey = 4;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionResponse, _impl_.rkey_), 63>(),
-     {32, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.rkey_)}},
-    // repeated uint32 qpns = 5;
-    {::_pbi::TcParser::FastV32P1,
-     {42, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.qpns_)}},
-    // repeated uint32 psns = 6;
-    {::_pbi::TcParser::FastV32P1,
-     {50, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.psns_)}},
     {::_pbi::TcParser::MiniParse, {}},
+    // uint32 rkey = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionResponse, _impl_.rkey_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.rkey_)}},
+    // uint64 raddr = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionResponse, _impl_.raddr_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.raddr_)}},
+    // uint32 qpn = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionResponse, _impl_.qpn_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.qpn_)}},
+    // uint32 psn = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionResponse, _impl_.psn_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.psn_)}},
+    // uint64 gid_iface = 14;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RdmaSessionResponse, _impl_.gid_iface_), 63>(),
+     {112, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.gid_iface_)}},
+    // uint32 lid = 15;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RdmaSessionResponse, _impl_.lid_), 63>(),
+     {120, 63, 0, PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.lid_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // uint64 session_id = 1;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.session_id_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // uint64 mac = 2;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.mac_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // uint32 ipv4 = 3;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.ipv4_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint32 rkey = 4;
+    // uint32 rkey = 2;
     {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.rkey_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // repeated uint32 qpns = 5;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.qpns_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kPackedUInt32)},
-    // repeated uint32 psns = 6;
-    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.psns_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kPackedUInt32)},
+    // uint64 raddr = 3;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.raddr_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint32 qpn = 4;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.qpn_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 psn = 5;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.psn_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 gid_subnet = 13;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.gid_subnet_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 gid_iface = 14;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.gid_iface_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint32 lid = 15;
+    {PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.lid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
   // no aux_entries
   {{
@@ -1010,11 +964,9 @@ PROTOBUF_NOINLINE void RdmaSessionResponse::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.qpns_.Clear();
-  _impl_.psns_.Clear();
-  ::memset(&_impl_.session_id_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.rkey_) -
-      reinterpret_cast<char*>(&_impl_.session_id_)) + sizeof(_impl_.rkey_));
+  ::memset(&_impl_.raddr_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.gid_iface_) -
+      reinterpret_cast<char*>(&_impl_.raddr_)) + sizeof(_impl_.gid_iface_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -1033,50 +985,53 @@ PROTOBUF_NOINLINE void RdmaSessionResponse::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // uint64 session_id = 1;
-          if (this_._internal_session_id() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                1, this_._internal_session_id(), target);
-          }
-
-          // uint64 mac = 2;
-          if (this_._internal_mac() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                2, this_._internal_mac(), target);
-          }
-
-          // uint32 ipv4 = 3;
-          if (this_._internal_ipv4() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                3, this_._internal_ipv4(), target);
-          }
-
-          // uint32 rkey = 4;
+          // uint32 rkey = 2;
           if (this_._internal_rkey() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                4, this_._internal_rkey(), target);
+                2, this_._internal_rkey(), target);
           }
 
-          // repeated uint32 qpns = 5;
-          {
-            int byte_size = this_._impl_._qpns_cached_byte_size_.Get();
-            if (byte_size > 0) {
-              target = stream->WriteUInt32Packed(
-                  5, this_._internal_qpns(), byte_size, target);
-            }
+          // uint64 raddr = 3;
+          if (this_._internal_raddr() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                3, this_._internal_raddr(), target);
           }
 
-          // repeated uint32 psns = 6;
-          {
-            int byte_size = this_._impl_._psns_cached_byte_size_.Get();
-            if (byte_size > 0) {
-              target = stream->WriteUInt32Packed(
-                  6, this_._internal_psns(), byte_size, target);
-            }
+          // uint32 qpn = 4;
+          if (this_._internal_qpn() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                4, this_._internal_qpn(), target);
+          }
+
+          // uint32 psn = 5;
+          if (this_._internal_psn() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                5, this_._internal_psn(), target);
+          }
+
+          // uint64 gid_subnet = 13;
+          if (this_._internal_gid_subnet() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                13, this_._internal_gid_subnet(), target);
+          }
+
+          // uint64 gid_iface = 14;
+          if (this_._internal_gid_iface() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                14, this_._internal_gid_iface(), target);
+          }
+
+          // uint32 lid = 15;
+          if (this_._internal_lid() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                15, this_._internal_lid(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -1104,41 +1059,40 @@ PROTOBUF_NOINLINE void RdmaSessionResponse::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated uint32 qpns = 5;
-            {
-              total_size +=
-                  ::_pbi::WireFormatLite::UInt32SizeWithPackedTagSize(
-                      this_._internal_qpns(), 1,
-                      this_._impl_._qpns_cached_byte_size_);
-            }
-            // repeated uint32 psns = 6;
-            {
-              total_size +=
-                  ::_pbi::WireFormatLite::UInt32SizeWithPackedTagSize(
-                      this_._internal_psns(), 1,
-                      this_._impl_._psns_cached_byte_size_);
-            }
-          }
-           {
-            // uint64 session_id = 1;
-            if (this_._internal_session_id() != 0) {
+            // uint64 raddr = 3;
+            if (this_._internal_raddr() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                  this_._internal_session_id());
+                  this_._internal_raddr());
             }
-            // uint64 mac = 2;
-            if (this_._internal_mac() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                  this_._internal_mac());
-            }
-            // uint32 ipv4 = 3;
-            if (this_._internal_ipv4() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-                  this_._internal_ipv4());
-            }
-            // uint32 rkey = 4;
+            // uint32 rkey = 2;
             if (this_._internal_rkey() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_rkey());
+            }
+            // uint32 qpn = 4;
+            if (this_._internal_qpn() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_qpn());
+            }
+            // uint32 psn = 5;
+            if (this_._internal_psn() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_psn());
+            }
+            // uint32 lid = 15;
+            if (this_._internal_lid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_lid());
+            }
+            // uint64 gid_subnet = 13;
+            if (this_._internal_gid_subnet() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_gid_subnet());
+            }
+            // uint64 gid_iface = 14;
+            if (this_._internal_gid_iface() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_gid_iface());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1153,19 +1107,26 @@ void RdmaSessionResponse::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_qpns()->MergeFrom(from._internal_qpns());
-  _this->_internal_mutable_psns()->MergeFrom(from._internal_psns());
-  if (from._internal_session_id() != 0) {
-    _this->_impl_.session_id_ = from._impl_.session_id_;
-  }
-  if (from._internal_mac() != 0) {
-    _this->_impl_.mac_ = from._impl_.mac_;
-  }
-  if (from._internal_ipv4() != 0) {
-    _this->_impl_.ipv4_ = from._impl_.ipv4_;
+  if (from._internal_raddr() != 0) {
+    _this->_impl_.raddr_ = from._impl_.raddr_;
   }
   if (from._internal_rkey() != 0) {
     _this->_impl_.rkey_ = from._impl_.rkey_;
+  }
+  if (from._internal_qpn() != 0) {
+    _this->_impl_.qpn_ = from._impl_.qpn_;
+  }
+  if (from._internal_psn() != 0) {
+    _this->_impl_.psn_ = from._impl_.psn_;
+  }
+  if (from._internal_lid() != 0) {
+    _this->_impl_.lid_ = from._impl_.lid_;
+  }
+  if (from._internal_gid_subnet() != 0) {
+    _this->_impl_.gid_subnet_ = from._impl_.gid_subnet_;
+  }
+  if (from._internal_gid_iface() != 0) {
+    _this->_impl_.gid_iface_ = from._impl_.gid_iface_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1181,14 +1142,12 @@ void RdmaSessionResponse::CopyFrom(const RdmaSessionResponse& from) {
 void RdmaSessionResponse::InternalSwap(RdmaSessionResponse* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.qpns_.InternalSwap(&other->_impl_.qpns_);
-  _impl_.psns_.InternalSwap(&other->_impl_.psns_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.rkey_)
-      + sizeof(RdmaSessionResponse::_impl_.rkey_)
-      - PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.session_id_)>(
-          reinterpret_cast<char*>(&_impl_.session_id_),
-          reinterpret_cast<char*>(&other->_impl_.session_id_));
+      PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.gid_iface_)
+      + sizeof(RdmaSessionResponse::_impl_.gid_iface_)
+      - PROTOBUF_FIELD_OFFSET(RdmaSessionResponse, _impl_.raddr_)>(
+          reinterpret_cast<char*>(&_impl_.raddr_),
+          reinterpret_cast<char*>(&other->_impl_.raddr_));
 }
 
 ::google::protobuf::Metadata RdmaSessionResponse::GetMetadata() const {

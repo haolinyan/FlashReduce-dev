@@ -24,29 +24,27 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11\x66lashreduce.proto\x12\x11\x66lashreduce_proto\"\xda\x01\n\x12RdmaSessionRequest\x12\x12\n\nsession_id\x18\x01 \x01(\r\x12\x0c\n\x04rank\x18\x02 \x01(\r\x12\x13\n\x0bnum_workers\x18\x03 \x01(\r\x12\x0b\n\x03mac\x18\x04 \x01(\x04\x12\x0c\n\x04ipv4\x18\x05 \x01(\r\x12\x0c\n\x04rkey\x18\x06 \x01(\r\x12\x32\n\x0bpacket_size\x18\x07 \x01(\x0e\x32\x1d.flashreduce_proto.PacketSize\x12\x14\n\x0cmessage_size\x18\x08 \x01(\r\x12\x0c\n\x04qpns\x18\t \x03(\r\x12\x0c\n\x04psns\x18\n \x03(\r\"n\n\x13RdmaSessionResponse\x12\x12\n\nsession_id\x18\x01 \x01(\x04\x12\x0b\n\x03mac\x18\x02 \x01(\x04\x12\x0c\n\x04ipv4\x18\x03 \x01(\r\x12\x0c\n\x04rkey\x18\x04 \x01(\r\x12\x0c\n\x04qpns\x18\x05 \x03(\r\x12\x0c\n\x04psns\x18\x06 \x03(\r\"%\n\x0e\x42\x61rrierRequest\x12\x13\n\x0bnum_workers\x18\x01 \x01(\r\"\x11\n\x0f\x42\x61rrierResponse\"R\n\x10\x42roadcastRequest\x12\r\n\x05value\x18\x01 \x01(\x04\x12\x0c\n\x04rank\x18\x02 \x01(\r\x12\x13\n\x0bnum_workers\x18\x03 \x01(\r\x12\x0c\n\x04root\x18\x04 \x01(\r\"\"\n\x11\x42roadcastResponse\x12\r\n\x05value\x18\x01 \x01(\x04*\'\n\nPacketSize\x12\x0b\n\x07MTU_256\x10\x00\x12\x0c\n\x08MTU_1024\x10\x01\x32i\n\x07Session\x12^\n\x0bRdmaSession\x12%.flashreduce_proto.RdmaSessionRequest\x1a&.flashreduce_proto.RdmaSessionResponse\"\x00\x32\xb4\x01\n\x04Sync\x12R\n\x07\x42\x61rrier\x12!.flashreduce_proto.BarrierRequest\x1a\".flashreduce_proto.BarrierResponse\"\x00\x12X\n\tBroadcast\x12#.flashreduce_proto.BroadcastRequest\x1a$.flashreduce_proto.BroadcastResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11\x66lashreduce.proto\x12\x11\x66lashreduce_proto\"\xdf\x01\n\x12RdmaSessionRequest\x12\x12\n\nsession_id\x18\x01 \x01(\r\x12\x0c\n\x04rank\x18\x02 \x01(\r\x12\x13\n\x0bnum_workers\x18\x03 \x01(\r\x12\x0c\n\x04root\x18\x04 \x01(\r\x12\x0b\n\x03mac\x18\x05 \x01(\x04\x12\x0c\n\x04ipv4\x18\x06 \x01(\r\x12\x0c\n\x04rkey\x18\x07 \x01(\r\x12\r\n\x05raddr\x18\x08 \x01(\x04\x12\x0b\n\x03qpn\x18\t \x01(\r\x12\x0b\n\x03psn\x18\n \x01(\r\x12\x12\n\ngid_subnet\x18\x0b \x01(\x04\x12\x11\n\tgid_iface\x18\x0c \x01(\x04\x12\x0b\n\x03lid\x18\r \x01(\r\"\x80\x01\n\x13RdmaSessionResponse\x12\x0c\n\x04rkey\x18\x02 \x01(\r\x12\r\n\x05raddr\x18\x03 \x01(\x04\x12\x0b\n\x03qpn\x18\x04 \x01(\r\x12\x0b\n\x03psn\x18\x05 \x01(\r\x12\x12\n\ngid_subnet\x18\r \x01(\x04\x12\x11\n\tgid_iface\x18\x0e \x01(\x04\x12\x0b\n\x03lid\x18\x0f \x01(\r\"%\n\x0e\x42\x61rrierRequest\x12\x13\n\x0bnum_workers\x18\x01 \x01(\r\"\x11\n\x0f\x42\x61rrierResponse\"R\n\x10\x42roadcastRequest\x12\r\n\x05value\x18\x01 \x01(\x04\x12\x0c\n\x04rank\x18\x02 \x01(\r\x12\x13\n\x0bnum_workers\x18\x03 \x01(\r\x12\x0c\n\x04root\x18\x04 \x01(\r\"\"\n\x11\x42roadcastResponse\x12\r\n\x05value\x18\x01 \x01(\x04\x32i\n\x07Session\x12^\n\x0bRdmaSession\x12%.flashreduce_proto.RdmaSessionRequest\x1a&.flashreduce_proto.RdmaSessionResponse\"\x00\x32\xb4\x01\n\x04Sync\x12R\n\x07\x42\x61rrier\x12!.flashreduce_proto.BarrierRequest\x1a\".flashreduce_proto.BarrierResponse\"\x00\x12X\n\tBroadcast\x12#.flashreduce_proto.BroadcastRequest\x1a$.flashreduce_proto.BroadcastResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'flashreduce_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_PACKETSIZE']._serialized_start=551
-  _globals['_PACKETSIZE']._serialized_end=590
   _globals['_RDMASESSIONREQUEST']._serialized_start=41
-  _globals['_RDMASESSIONREQUEST']._serialized_end=259
-  _globals['_RDMASESSIONRESPONSE']._serialized_start=261
-  _globals['_RDMASESSIONRESPONSE']._serialized_end=371
-  _globals['_BARRIERREQUEST']._serialized_start=373
-  _globals['_BARRIERREQUEST']._serialized_end=410
-  _globals['_BARRIERRESPONSE']._serialized_start=412
-  _globals['_BARRIERRESPONSE']._serialized_end=429
-  _globals['_BROADCASTREQUEST']._serialized_start=431
-  _globals['_BROADCASTREQUEST']._serialized_end=513
-  _globals['_BROADCASTRESPONSE']._serialized_start=515
-  _globals['_BROADCASTRESPONSE']._serialized_end=549
-  _globals['_SESSION']._serialized_start=592
-  _globals['_SESSION']._serialized_end=697
-  _globals['_SYNC']._serialized_start=700
-  _globals['_SYNC']._serialized_end=880
+  _globals['_RDMASESSIONREQUEST']._serialized_end=264
+  _globals['_RDMASESSIONRESPONSE']._serialized_start=267
+  _globals['_RDMASESSIONRESPONSE']._serialized_end=395
+  _globals['_BARRIERREQUEST']._serialized_start=397
+  _globals['_BARRIERREQUEST']._serialized_end=434
+  _globals['_BARRIERRESPONSE']._serialized_start=436
+  _globals['_BARRIERRESPONSE']._serialized_end=453
+  _globals['_BROADCASTREQUEST']._serialized_start=455
+  _globals['_BROADCASTREQUEST']._serialized_end=537
+  _globals['_BROADCASTRESPONSE']._serialized_start=539
+  _globals['_BROADCASTRESPONSE']._serialized_end=573
+  _globals['_SESSION']._serialized_start=575
+  _globals['_SESSION']._serialized_end=680
+  _globals['_SYNC']._serialized_start=683
+  _globals['_SYNC']._serialized_end=863
 # @@protoc_insertion_point(module_scope)

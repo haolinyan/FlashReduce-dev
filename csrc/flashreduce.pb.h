@@ -29,7 +29,6 @@
 #include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
-#include "google/protobuf/generated_enum_reflection.h"
 #include "google/protobuf/unknown_field_set.h"
 // @@protoc_insertion_point(includes)
 
@@ -79,39 +78,6 @@ namespace protobuf {
 }  // namespace google
 
 namespace flashreduce_proto {
-enum PacketSize : int {
-  MTU_256 = 0,
-  MTU_1024 = 1,
-  PacketSize_INT_MIN_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::min(),
-  PacketSize_INT_MAX_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::max(),
-};
-
-bool PacketSize_IsValid(int value);
-extern const uint32_t PacketSize_internal_data_[];
-constexpr PacketSize PacketSize_MIN = static_cast<PacketSize>(0);
-constexpr PacketSize PacketSize_MAX = static_cast<PacketSize>(1);
-constexpr int PacketSize_ARRAYSIZE = 1 + 1;
-const ::google::protobuf::EnumDescriptor*
-PacketSize_descriptor();
-template <typename T>
-const std::string& PacketSize_Name(T value) {
-  static_assert(std::is_same<T, PacketSize>::value ||
-                    std::is_integral<T>::value,
-                "Incorrect type passed to PacketSize_Name().");
-  return PacketSize_Name(static_cast<PacketSize>(value));
-}
-template <>
-inline const std::string& PacketSize_Name(PacketSize value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<PacketSize_descriptor,
-                                                 0, 1>(
-      static_cast<int>(value));
-}
-inline bool PacketSize_Parse(absl::string_view name, PacketSize* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PacketSize>(
-      PacketSize_descriptor(), name, value);
-}
 
 // ===================================================================
 
@@ -265,80 +231,25 @@ class RdmaSessionResponse final
 
   // accessors -------------------------------------------------------
   enum : int {
-    kQpnsFieldNumber = 5,
-    kPsnsFieldNumber = 6,
-    kSessionIdFieldNumber = 1,
-    kMacFieldNumber = 2,
-    kIpv4FieldNumber = 3,
-    kRkeyFieldNumber = 4,
+    kRaddrFieldNumber = 3,
+    kRkeyFieldNumber = 2,
+    kQpnFieldNumber = 4,
+    kPsnFieldNumber = 5,
+    kLidFieldNumber = 15,
+    kGidSubnetFieldNumber = 13,
+    kGidIfaceFieldNumber = 14,
   };
-  // repeated uint32 qpns = 5;
-  int qpns_size() const;
-  private:
-  int _internal_qpns_size() const;
-
-  public:
-  void clear_qpns() ;
-  ::uint32_t qpns(int index) const;
-  void set_qpns(int index, ::uint32_t value);
-  void add_qpns(::uint32_t value);
-  const ::google::protobuf::RepeatedField<::uint32_t>& qpns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* mutable_qpns();
+  // uint64 raddr = 3;
+  void clear_raddr() ;
+  ::uint64_t raddr() const;
+  void set_raddr(::uint64_t value);
 
   private:
-  const ::google::protobuf::RepeatedField<::uint32_t>& _internal_qpns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* _internal_mutable_qpns();
+  ::uint64_t _internal_raddr() const;
+  void _internal_set_raddr(::uint64_t value);
 
   public:
-  // repeated uint32 psns = 6;
-  int psns_size() const;
-  private:
-  int _internal_psns_size() const;
-
-  public:
-  void clear_psns() ;
-  ::uint32_t psns(int index) const;
-  void set_psns(int index, ::uint32_t value);
-  void add_psns(::uint32_t value);
-  const ::google::protobuf::RepeatedField<::uint32_t>& psns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* mutable_psns();
-
-  private:
-  const ::google::protobuf::RepeatedField<::uint32_t>& _internal_psns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* _internal_mutable_psns();
-
-  public:
-  // uint64 session_id = 1;
-  void clear_session_id() ;
-  ::uint64_t session_id() const;
-  void set_session_id(::uint64_t value);
-
-  private:
-  ::uint64_t _internal_session_id() const;
-  void _internal_set_session_id(::uint64_t value);
-
-  public:
-  // uint64 mac = 2;
-  void clear_mac() ;
-  ::uint64_t mac() const;
-  void set_mac(::uint64_t value);
-
-  private:
-  ::uint64_t _internal_mac() const;
-  void _internal_set_mac(::uint64_t value);
-
-  public:
-  // uint32 ipv4 = 3;
-  void clear_ipv4() ;
-  ::uint32_t ipv4() const;
-  void set_ipv4(::uint32_t value);
-
-  private:
-  ::uint32_t _internal_ipv4() const;
-  void _internal_set_ipv4(::uint32_t value);
-
-  public:
-  // uint32 rkey = 4;
+  // uint32 rkey = 2;
   void clear_rkey() ;
   ::uint32_t rkey() const;
   void set_rkey(::uint32_t value);
@@ -348,12 +259,62 @@ class RdmaSessionResponse final
   void _internal_set_rkey(::uint32_t value);
 
   public:
+  // uint32 qpn = 4;
+  void clear_qpn() ;
+  ::uint32_t qpn() const;
+  void set_qpn(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_qpn() const;
+  void _internal_set_qpn(::uint32_t value);
+
+  public:
+  // uint32 psn = 5;
+  void clear_psn() ;
+  ::uint32_t psn() const;
+  void set_psn(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_psn() const;
+  void _internal_set_psn(::uint32_t value);
+
+  public:
+  // uint32 lid = 15;
+  void clear_lid() ;
+  ::uint32_t lid() const;
+  void set_lid(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_lid() const;
+  void _internal_set_lid(::uint32_t value);
+
+  public:
+  // uint64 gid_subnet = 13;
+  void clear_gid_subnet() ;
+  ::uint64_t gid_subnet() const;
+  void set_gid_subnet(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_gid_subnet() const;
+  void _internal_set_gid_subnet(::uint64_t value);
+
+  public:
+  // uint64 gid_iface = 14;
+  void clear_gid_iface() ;
+  ::uint64_t gid_iface() const;
+  void set_gid_iface(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_gid_iface() const;
+  void _internal_set_gid_iface(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:flashreduce_proto.RdmaSessionResponse)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 0,
+      3, 7, 0,
       0, 2>
       _table_;
 
@@ -371,14 +332,13 @@ class RdmaSessionResponse final
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RdmaSessionResponse& from_msg);
-    ::google::protobuf::RepeatedField<::uint32_t> qpns_;
-    ::google::protobuf::internal::CachedSize _qpns_cached_byte_size_;
-    ::google::protobuf::RepeatedField<::uint32_t> psns_;
-    ::google::protobuf::internal::CachedSize _psns_cached_byte_size_;
-    ::uint64_t session_id_;
-    ::uint64_t mac_;
-    ::uint32_t ipv4_;
+    ::uint64_t raddr_;
     ::uint32_t rkey_;
+    ::uint32_t qpn_;
+    ::uint32_t psn_;
+    ::uint32_t lid_;
+    ::uint64_t gid_subnet_;
+    ::uint64_t gid_iface_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -534,53 +494,20 @@ class RdmaSessionRequest final
 
   // accessors -------------------------------------------------------
   enum : int {
-    kQpnsFieldNumber = 9,
-    kPsnsFieldNumber = 10,
     kSessionIdFieldNumber = 1,
     kRankFieldNumber = 2,
-    kMacFieldNumber = 4,
     kNumWorkersFieldNumber = 3,
-    kIpv4FieldNumber = 5,
-    kRkeyFieldNumber = 6,
-    kPacketSizeFieldNumber = 7,
-    kMessageSizeFieldNumber = 8,
+    kRootFieldNumber = 4,
+    kMacFieldNumber = 5,
+    kIpv4FieldNumber = 6,
+    kRkeyFieldNumber = 7,
+    kRaddrFieldNumber = 8,
+    kQpnFieldNumber = 9,
+    kPsnFieldNumber = 10,
+    kGidSubnetFieldNumber = 11,
+    kGidIfaceFieldNumber = 12,
+    kLidFieldNumber = 13,
   };
-  // repeated uint32 qpns = 9;
-  int qpns_size() const;
-  private:
-  int _internal_qpns_size() const;
-
-  public:
-  void clear_qpns() ;
-  ::uint32_t qpns(int index) const;
-  void set_qpns(int index, ::uint32_t value);
-  void add_qpns(::uint32_t value);
-  const ::google::protobuf::RepeatedField<::uint32_t>& qpns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* mutable_qpns();
-
-  private:
-  const ::google::protobuf::RepeatedField<::uint32_t>& _internal_qpns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* _internal_mutable_qpns();
-
-  public:
-  // repeated uint32 psns = 10;
-  int psns_size() const;
-  private:
-  int _internal_psns_size() const;
-
-  public:
-  void clear_psns() ;
-  ::uint32_t psns(int index) const;
-  void set_psns(int index, ::uint32_t value);
-  void add_psns(::uint32_t value);
-  const ::google::protobuf::RepeatedField<::uint32_t>& psns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* mutable_psns();
-
-  private:
-  const ::google::protobuf::RepeatedField<::uint32_t>& _internal_psns() const;
-  ::google::protobuf::RepeatedField<::uint32_t>* _internal_mutable_psns();
-
-  public:
   // uint32 session_id = 1;
   void clear_session_id() ;
   ::uint32_t session_id() const;
@@ -601,16 +528,6 @@ class RdmaSessionRequest final
   void _internal_set_rank(::uint32_t value);
 
   public:
-  // uint64 mac = 4;
-  void clear_mac() ;
-  ::uint64_t mac() const;
-  void set_mac(::uint64_t value);
-
-  private:
-  ::uint64_t _internal_mac() const;
-  void _internal_set_mac(::uint64_t value);
-
-  public:
   // uint32 num_workers = 3;
   void clear_num_workers() ;
   ::uint32_t num_workers() const;
@@ -621,7 +538,27 @@ class RdmaSessionRequest final
   void _internal_set_num_workers(::uint32_t value);
 
   public:
-  // uint32 ipv4 = 5;
+  // uint32 root = 4;
+  void clear_root() ;
+  ::uint32_t root() const;
+  void set_root(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_root() const;
+  void _internal_set_root(::uint32_t value);
+
+  public:
+  // uint64 mac = 5;
+  void clear_mac() ;
+  ::uint64_t mac() const;
+  void set_mac(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_mac() const;
+  void _internal_set_mac(::uint64_t value);
+
+  public:
+  // uint32 ipv4 = 6;
   void clear_ipv4() ;
   ::uint32_t ipv4() const;
   void set_ipv4(::uint32_t value);
@@ -631,7 +568,7 @@ class RdmaSessionRequest final
   void _internal_set_ipv4(::uint32_t value);
 
   public:
-  // uint32 rkey = 6;
+  // uint32 rkey = 7;
   void clear_rkey() ;
   ::uint32_t rkey() const;
   void set_rkey(::uint32_t value);
@@ -641,24 +578,64 @@ class RdmaSessionRequest final
   void _internal_set_rkey(::uint32_t value);
 
   public:
-  // .flashreduce_proto.PacketSize packet_size = 7;
-  void clear_packet_size() ;
-  ::flashreduce_proto::PacketSize packet_size() const;
-  void set_packet_size(::flashreduce_proto::PacketSize value);
+  // uint64 raddr = 8;
+  void clear_raddr() ;
+  ::uint64_t raddr() const;
+  void set_raddr(::uint64_t value);
 
   private:
-  ::flashreduce_proto::PacketSize _internal_packet_size() const;
-  void _internal_set_packet_size(::flashreduce_proto::PacketSize value);
+  ::uint64_t _internal_raddr() const;
+  void _internal_set_raddr(::uint64_t value);
 
   public:
-  // uint32 message_size = 8;
-  void clear_message_size() ;
-  ::uint32_t message_size() const;
-  void set_message_size(::uint32_t value);
+  // uint32 qpn = 9;
+  void clear_qpn() ;
+  ::uint32_t qpn() const;
+  void set_qpn(::uint32_t value);
 
   private:
-  ::uint32_t _internal_message_size() const;
-  void _internal_set_message_size(::uint32_t value);
+  ::uint32_t _internal_qpn() const;
+  void _internal_set_qpn(::uint32_t value);
+
+  public:
+  // uint32 psn = 10;
+  void clear_psn() ;
+  ::uint32_t psn() const;
+  void set_psn(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_psn() const;
+  void _internal_set_psn(::uint32_t value);
+
+  public:
+  // uint64 gid_subnet = 11;
+  void clear_gid_subnet() ;
+  ::uint64_t gid_subnet() const;
+  void set_gid_subnet(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_gid_subnet() const;
+  void _internal_set_gid_subnet(::uint64_t value);
+
+  public:
+  // uint64 gid_iface = 12;
+  void clear_gid_iface() ;
+  ::uint64_t gid_iface() const;
+  void set_gid_iface(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_gid_iface() const;
+  void _internal_set_gid_iface(::uint64_t value);
+
+  public:
+  // uint32 lid = 13;
+  void clear_lid() ;
+  ::uint32_t lid() const;
+  void set_lid(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_lid() const;
+  void _internal_set_lid(::uint32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:flashreduce_proto.RdmaSessionRequest)
@@ -666,7 +643,7 @@ class RdmaSessionRequest final
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 10, 0,
+      4, 13, 0,
       0, 2>
       _table_;
 
@@ -684,18 +661,19 @@ class RdmaSessionRequest final
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RdmaSessionRequest& from_msg);
-    ::google::protobuf::RepeatedField<::uint32_t> qpns_;
-    ::google::protobuf::internal::CachedSize _qpns_cached_byte_size_;
-    ::google::protobuf::RepeatedField<::uint32_t> psns_;
-    ::google::protobuf::internal::CachedSize _psns_cached_byte_size_;
     ::uint32_t session_id_;
     ::uint32_t rank_;
-    ::uint64_t mac_;
     ::uint32_t num_workers_;
+    ::uint32_t root_;
+    ::uint64_t mac_;
     ::uint32_t ipv4_;
     ::uint32_t rkey_;
-    int packet_size_;
-    ::uint32_t message_size_;
+    ::uint64_t raddr_;
+    ::uint32_t qpn_;
+    ::uint32_t psn_;
+    ::uint64_t gid_subnet_;
+    ::uint64_t gid_iface_;
+    ::uint32_t lid_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1540,7 +1518,29 @@ inline void RdmaSessionRequest::_internal_set_num_workers(::uint32_t value) {
   _impl_.num_workers_ = value;
 }
 
-// uint64 mac = 4;
+// uint32 root = 4;
+inline void RdmaSessionRequest::clear_root() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.root_ = 0u;
+}
+inline ::uint32_t RdmaSessionRequest::root() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.root)
+  return _internal_root();
+}
+inline void RdmaSessionRequest::set_root(::uint32_t value) {
+  _internal_set_root(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.root)
+}
+inline ::uint32_t RdmaSessionRequest::_internal_root() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.root_;
+}
+inline void RdmaSessionRequest::_internal_set_root(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.root_ = value;
+}
+
+// uint64 mac = 5;
 inline void RdmaSessionRequest::clear_mac() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.mac_ = ::uint64_t{0u};
@@ -1562,7 +1562,7 @@ inline void RdmaSessionRequest::_internal_set_mac(::uint64_t value) {
   _impl_.mac_ = value;
 }
 
-// uint32 ipv4 = 5;
+// uint32 ipv4 = 6;
 inline void RdmaSessionRequest::clear_ipv4() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.ipv4_ = 0u;
@@ -1584,7 +1584,7 @@ inline void RdmaSessionRequest::_internal_set_ipv4(::uint32_t value) {
   _impl_.ipv4_ = value;
 }
 
-// uint32 rkey = 6;
+// uint32 rkey = 7;
 inline void RdmaSessionRequest::clear_rkey() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.rkey_ = 0u;
@@ -1606,211 +1606,143 @@ inline void RdmaSessionRequest::_internal_set_rkey(::uint32_t value) {
   _impl_.rkey_ = value;
 }
 
-// .flashreduce_proto.PacketSize packet_size = 7;
-inline void RdmaSessionRequest::clear_packet_size() {
+// uint64 raddr = 8;
+inline void RdmaSessionRequest::clear_raddr() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_size_ = 0;
+  _impl_.raddr_ = ::uint64_t{0u};
 }
-inline ::flashreduce_proto::PacketSize RdmaSessionRequest::packet_size() const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.packet_size)
-  return _internal_packet_size();
+inline ::uint64_t RdmaSessionRequest::raddr() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.raddr)
+  return _internal_raddr();
 }
-inline void RdmaSessionRequest::set_packet_size(::flashreduce_proto::PacketSize value) {
-  _internal_set_packet_size(value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.packet_size)
+inline void RdmaSessionRequest::set_raddr(::uint64_t value) {
+  _internal_set_raddr(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.raddr)
 }
-inline ::flashreduce_proto::PacketSize RdmaSessionRequest::_internal_packet_size() const {
+inline ::uint64_t RdmaSessionRequest::_internal_raddr() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return static_cast<::flashreduce_proto::PacketSize>(_impl_.packet_size_);
+  return _impl_.raddr_;
 }
-inline void RdmaSessionRequest::_internal_set_packet_size(::flashreduce_proto::PacketSize value) {
+inline void RdmaSessionRequest::_internal_set_raddr(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_size_ = value;
+  _impl_.raddr_ = value;
 }
 
-// uint32 message_size = 8;
-inline void RdmaSessionRequest::clear_message_size() {
+// uint32 qpn = 9;
+inline void RdmaSessionRequest::clear_qpn() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.message_size_ = 0u;
+  _impl_.qpn_ = 0u;
 }
-inline ::uint32_t RdmaSessionRequest::message_size() const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.message_size)
-  return _internal_message_size();
+inline ::uint32_t RdmaSessionRequest::qpn() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.qpn)
+  return _internal_qpn();
 }
-inline void RdmaSessionRequest::set_message_size(::uint32_t value) {
-  _internal_set_message_size(value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.message_size)
+inline void RdmaSessionRequest::set_qpn(::uint32_t value) {
+  _internal_set_qpn(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.qpn)
 }
-inline ::uint32_t RdmaSessionRequest::_internal_message_size() const {
+inline ::uint32_t RdmaSessionRequest::_internal_qpn() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.message_size_;
+  return _impl_.qpn_;
 }
-inline void RdmaSessionRequest::_internal_set_message_size(::uint32_t value) {
+inline void RdmaSessionRequest::_internal_set_qpn(::uint32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.message_size_ = value;
+  _impl_.qpn_ = value;
 }
 
-// repeated uint32 qpns = 9;
-inline int RdmaSessionRequest::_internal_qpns_size() const {
-  return _internal_qpns().size();
-}
-inline int RdmaSessionRequest::qpns_size() const {
-  return _internal_qpns_size();
-}
-inline void RdmaSessionRequest::clear_qpns() {
+// uint32 psn = 10;
+inline void RdmaSessionRequest::clear_psn() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.qpns_.Clear();
+  _impl_.psn_ = 0u;
 }
-inline ::uint32_t RdmaSessionRequest::qpns(int index) const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.qpns)
-  return _internal_qpns().Get(index);
+inline ::uint32_t RdmaSessionRequest::psn() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.psn)
+  return _internal_psn();
 }
-inline void RdmaSessionRequest::set_qpns(int index, ::uint32_t value) {
-  _internal_mutable_qpns()->Set(index, value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.qpns)
+inline void RdmaSessionRequest::set_psn(::uint32_t value) {
+  _internal_set_psn(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.psn)
 }
-inline void RdmaSessionRequest::add_qpns(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_qpns()->Add(value);
-  // @@protoc_insertion_point(field_add:flashreduce_proto.RdmaSessionRequest.qpns)
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>& RdmaSessionRequest::qpns() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:flashreduce_proto.RdmaSessionRequest.qpns)
-  return _internal_qpns();
-}
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionRequest::mutable_qpns()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:flashreduce_proto.RdmaSessionRequest.qpns)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_qpns();
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>&
-RdmaSessionRequest::_internal_qpns() const {
+inline ::uint32_t RdmaSessionRequest::_internal_psn() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.qpns_;
+  return _impl_.psn_;
 }
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionRequest::_internal_mutable_qpns() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.qpns_;
+inline void RdmaSessionRequest::_internal_set_psn(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.psn_ = value;
 }
 
-// repeated uint32 psns = 10;
-inline int RdmaSessionRequest::_internal_psns_size() const {
-  return _internal_psns().size();
-}
-inline int RdmaSessionRequest::psns_size() const {
-  return _internal_psns_size();
-}
-inline void RdmaSessionRequest::clear_psns() {
+// uint64 gid_subnet = 11;
+inline void RdmaSessionRequest::clear_gid_subnet() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.psns_.Clear();
+  _impl_.gid_subnet_ = ::uint64_t{0u};
 }
-inline ::uint32_t RdmaSessionRequest::psns(int index) const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.psns)
-  return _internal_psns().Get(index);
+inline ::uint64_t RdmaSessionRequest::gid_subnet() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.gid_subnet)
+  return _internal_gid_subnet();
 }
-inline void RdmaSessionRequest::set_psns(int index, ::uint32_t value) {
-  _internal_mutable_psns()->Set(index, value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.psns)
+inline void RdmaSessionRequest::set_gid_subnet(::uint64_t value) {
+  _internal_set_gid_subnet(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.gid_subnet)
 }
-inline void RdmaSessionRequest::add_psns(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_psns()->Add(value);
-  // @@protoc_insertion_point(field_add:flashreduce_proto.RdmaSessionRequest.psns)
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>& RdmaSessionRequest::psns() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:flashreduce_proto.RdmaSessionRequest.psns)
-  return _internal_psns();
-}
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionRequest::mutable_psns()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:flashreduce_proto.RdmaSessionRequest.psns)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_psns();
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>&
-RdmaSessionRequest::_internal_psns() const {
+inline ::uint64_t RdmaSessionRequest::_internal_gid_subnet() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.psns_;
+  return _impl_.gid_subnet_;
 }
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionRequest::_internal_mutable_psns() {
+inline void RdmaSessionRequest::_internal_set_gid_subnet(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_subnet_ = value;
+}
+
+// uint64 gid_iface = 12;
+inline void RdmaSessionRequest::clear_gid_iface() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_iface_ = ::uint64_t{0u};
+}
+inline ::uint64_t RdmaSessionRequest::gid_iface() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.gid_iface)
+  return _internal_gid_iface();
+}
+inline void RdmaSessionRequest::set_gid_iface(::uint64_t value) {
+  _internal_set_gid_iface(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.gid_iface)
+}
+inline ::uint64_t RdmaSessionRequest::_internal_gid_iface() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.psns_;
+  return _impl_.gid_iface_;
+}
+inline void RdmaSessionRequest::_internal_set_gid_iface(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_iface_ = value;
+}
+
+// uint32 lid = 13;
+inline void RdmaSessionRequest::clear_lid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.lid_ = 0u;
+}
+inline ::uint32_t RdmaSessionRequest::lid() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionRequest.lid)
+  return _internal_lid();
+}
+inline void RdmaSessionRequest::set_lid(::uint32_t value) {
+  _internal_set_lid(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionRequest.lid)
+}
+inline ::uint32_t RdmaSessionRequest::_internal_lid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.lid_;
+}
+inline void RdmaSessionRequest::_internal_set_lid(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.lid_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // RdmaSessionResponse
 
-// uint64 session_id = 1;
-inline void RdmaSessionResponse::clear_session_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.session_id_ = ::uint64_t{0u};
-}
-inline ::uint64_t RdmaSessionResponse::session_id() const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.session_id)
-  return _internal_session_id();
-}
-inline void RdmaSessionResponse::set_session_id(::uint64_t value) {
-  _internal_set_session_id(value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.session_id)
-}
-inline ::uint64_t RdmaSessionResponse::_internal_session_id() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.session_id_;
-}
-inline void RdmaSessionResponse::_internal_set_session_id(::uint64_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.session_id_ = value;
-}
-
-// uint64 mac = 2;
-inline void RdmaSessionResponse::clear_mac() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.mac_ = ::uint64_t{0u};
-}
-inline ::uint64_t RdmaSessionResponse::mac() const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.mac)
-  return _internal_mac();
-}
-inline void RdmaSessionResponse::set_mac(::uint64_t value) {
-  _internal_set_mac(value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.mac)
-}
-inline ::uint64_t RdmaSessionResponse::_internal_mac() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.mac_;
-}
-inline void RdmaSessionResponse::_internal_set_mac(::uint64_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.mac_ = value;
-}
-
-// uint32 ipv4 = 3;
-inline void RdmaSessionResponse::clear_ipv4() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.ipv4_ = 0u;
-}
-inline ::uint32_t RdmaSessionResponse::ipv4() const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.ipv4)
-  return _internal_ipv4();
-}
-inline void RdmaSessionResponse::set_ipv4(::uint32_t value) {
-  _internal_set_ipv4(value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.ipv4)
-}
-inline ::uint32_t RdmaSessionResponse::_internal_ipv4() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.ipv4_;
-}
-inline void RdmaSessionResponse::_internal_set_ipv4(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.ipv4_ = value;
-}
-
-// uint32 rkey = 4;
+// uint32 rkey = 2;
 inline void RdmaSessionResponse::clear_rkey() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.rkey_ = 0u;
@@ -1832,94 +1764,136 @@ inline void RdmaSessionResponse::_internal_set_rkey(::uint32_t value) {
   _impl_.rkey_ = value;
 }
 
-// repeated uint32 qpns = 5;
-inline int RdmaSessionResponse::_internal_qpns_size() const {
-  return _internal_qpns().size();
-}
-inline int RdmaSessionResponse::qpns_size() const {
-  return _internal_qpns_size();
-}
-inline void RdmaSessionResponse::clear_qpns() {
+// uint64 raddr = 3;
+inline void RdmaSessionResponse::clear_raddr() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.qpns_.Clear();
+  _impl_.raddr_ = ::uint64_t{0u};
 }
-inline ::uint32_t RdmaSessionResponse::qpns(int index) const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.qpns)
-  return _internal_qpns().Get(index);
+inline ::uint64_t RdmaSessionResponse::raddr() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.raddr)
+  return _internal_raddr();
 }
-inline void RdmaSessionResponse::set_qpns(int index, ::uint32_t value) {
-  _internal_mutable_qpns()->Set(index, value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.qpns)
+inline void RdmaSessionResponse::set_raddr(::uint64_t value) {
+  _internal_set_raddr(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.raddr)
 }
-inline void RdmaSessionResponse::add_qpns(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_qpns()->Add(value);
-  // @@protoc_insertion_point(field_add:flashreduce_proto.RdmaSessionResponse.qpns)
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>& RdmaSessionResponse::qpns() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:flashreduce_proto.RdmaSessionResponse.qpns)
-  return _internal_qpns();
-}
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionResponse::mutable_qpns()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:flashreduce_proto.RdmaSessionResponse.qpns)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_qpns();
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>&
-RdmaSessionResponse::_internal_qpns() const {
+inline ::uint64_t RdmaSessionResponse::_internal_raddr() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.qpns_;
+  return _impl_.raddr_;
 }
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionResponse::_internal_mutable_qpns() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.qpns_;
+inline void RdmaSessionResponse::_internal_set_raddr(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.raddr_ = value;
 }
 
-// repeated uint32 psns = 6;
-inline int RdmaSessionResponse::_internal_psns_size() const {
-  return _internal_psns().size();
-}
-inline int RdmaSessionResponse::psns_size() const {
-  return _internal_psns_size();
-}
-inline void RdmaSessionResponse::clear_psns() {
+// uint32 qpn = 4;
+inline void RdmaSessionResponse::clear_qpn() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.psns_.Clear();
+  _impl_.qpn_ = 0u;
 }
-inline ::uint32_t RdmaSessionResponse::psns(int index) const {
-  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.psns)
-  return _internal_psns().Get(index);
+inline ::uint32_t RdmaSessionResponse::qpn() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.qpn)
+  return _internal_qpn();
 }
-inline void RdmaSessionResponse::set_psns(int index, ::uint32_t value) {
-  _internal_mutable_psns()->Set(index, value);
-  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.psns)
+inline void RdmaSessionResponse::set_qpn(::uint32_t value) {
+  _internal_set_qpn(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.qpn)
 }
-inline void RdmaSessionResponse::add_psns(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_psns()->Add(value);
-  // @@protoc_insertion_point(field_add:flashreduce_proto.RdmaSessionResponse.psns)
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>& RdmaSessionResponse::psns() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:flashreduce_proto.RdmaSessionResponse.psns)
-  return _internal_psns();
-}
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionResponse::mutable_psns()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:flashreduce_proto.RdmaSessionResponse.psns)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_psns();
-}
-inline const ::google::protobuf::RepeatedField<::uint32_t>&
-RdmaSessionResponse::_internal_psns() const {
+inline ::uint32_t RdmaSessionResponse::_internal_qpn() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.psns_;
+  return _impl_.qpn_;
 }
-inline ::google::protobuf::RepeatedField<::uint32_t>* RdmaSessionResponse::_internal_mutable_psns() {
+inline void RdmaSessionResponse::_internal_set_qpn(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.qpn_ = value;
+}
+
+// uint32 psn = 5;
+inline void RdmaSessionResponse::clear_psn() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.psn_ = 0u;
+}
+inline ::uint32_t RdmaSessionResponse::psn() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.psn)
+  return _internal_psn();
+}
+inline void RdmaSessionResponse::set_psn(::uint32_t value) {
+  _internal_set_psn(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.psn)
+}
+inline ::uint32_t RdmaSessionResponse::_internal_psn() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.psns_;
+  return _impl_.psn_;
+}
+inline void RdmaSessionResponse::_internal_set_psn(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.psn_ = value;
+}
+
+// uint64 gid_subnet = 13;
+inline void RdmaSessionResponse::clear_gid_subnet() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_subnet_ = ::uint64_t{0u};
+}
+inline ::uint64_t RdmaSessionResponse::gid_subnet() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.gid_subnet)
+  return _internal_gid_subnet();
+}
+inline void RdmaSessionResponse::set_gid_subnet(::uint64_t value) {
+  _internal_set_gid_subnet(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.gid_subnet)
+}
+inline ::uint64_t RdmaSessionResponse::_internal_gid_subnet() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.gid_subnet_;
+}
+inline void RdmaSessionResponse::_internal_set_gid_subnet(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_subnet_ = value;
+}
+
+// uint64 gid_iface = 14;
+inline void RdmaSessionResponse::clear_gid_iface() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_iface_ = ::uint64_t{0u};
+}
+inline ::uint64_t RdmaSessionResponse::gid_iface() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.gid_iface)
+  return _internal_gid_iface();
+}
+inline void RdmaSessionResponse::set_gid_iface(::uint64_t value) {
+  _internal_set_gid_iface(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.gid_iface)
+}
+inline ::uint64_t RdmaSessionResponse::_internal_gid_iface() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.gid_iface_;
+}
+inline void RdmaSessionResponse::_internal_set_gid_iface(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gid_iface_ = value;
+}
+
+// uint32 lid = 15;
+inline void RdmaSessionResponse::clear_lid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.lid_ = 0u;
+}
+inline ::uint32_t RdmaSessionResponse::lid() const {
+  // @@protoc_insertion_point(field_get:flashreduce_proto.RdmaSessionResponse.lid)
+  return _internal_lid();
+}
+inline void RdmaSessionResponse::set_lid(::uint32_t value) {
+  _internal_set_lid(value);
+  // @@protoc_insertion_point(field_set:flashreduce_proto.RdmaSessionResponse.lid)
+}
+inline ::uint32_t RdmaSessionResponse::_internal_lid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.lid_;
+}
+inline void RdmaSessionResponse::_internal_set_lid(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.lid_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -2077,19 +2051,6 @@ inline void BroadcastResponse::_internal_set_value(::uint64_t value) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace flashreduce_proto
 
-
-namespace google {
-namespace protobuf {
-
-template <>
-struct is_proto_enum<::flashreduce_proto::PacketSize> : std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor<::flashreduce_proto::PacketSize>() {
-  return ::flashreduce_proto::PacketSize_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

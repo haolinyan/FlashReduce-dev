@@ -1,17 +1,18 @@
-from flashreduce_pb2_grpc import SyncServicer, add_SyncServicer_to_server
+from flashreduce_pb2_grpc import SyncServicer, add_SyncServicer_to_server, SessionServicer, add_SessionServicer_to_server
 import flashreduce_pb2
 from grpc import server
 from concurrent import futures
 import threading
 import logging
 
-class Controller(SyncServicer):
-    def __init__(self, ip='[::]', port=50099):
+class Controller(SyncServicer, SessionServicer):
+    def __init__(self, ip='[::]', port=8934):
         self.log = logging.getLogger(__name__)
         self.ip = ip
         self.port = port
         self._server = server(futures.ThreadPoolExecutor(max_workers=10))
         add_SyncServicer_to_server(self, self._server)
+        add_SessionServicer_to_server(self, self._server)
         self._server.add_insecure_port('{}:{}'.format(self.ip, self.port))
         self.lock = threading.RLock()
         # Barrier state
@@ -22,6 +23,8 @@ class Controller(SyncServicer):
         self._bcast_values = []
         self._bcast_bitmap = []
         self._bcast_events = []
+        # Session
+        self._sessions = {}
 
     def run(self):
         self._server.start()
@@ -33,6 +36,7 @@ class Controller(SyncServicer):
         self.log.info("gRPC server exited")
 
     def Barrier(self, request, context):
+        self.log.info("add 1")
         current_op_id = None
         event = None
         with self.lock:
@@ -99,6 +103,62 @@ class Controller(SyncServicer):
                     self._bcast_bitmap[idx][request.rank] = True
 
         return flashreduce_pb2.BroadcastResponse(value=self._bcast_values[idx])
+    
+    def RdmaSession(self, request, context):
+        current_op_id = None
+        event = None
+        with self.lock:
+            current_op_id = self._barrier_op_id
+            self._barrier_ctrs[current_op_id] += 1
+
+            if request.session_id not in self._sessions:
+                self._sessions[request.session_id] = {"root": None, "workers":{}}
+            if request.root == 1:
+                self._sessions[request.session_id]["root"] = request
+            else:
+                self._sessions[request.session_id]["workers"][request.rank] = request
+
+            self.log.info("add rank" + str(request.rank))
+                
+            if self._barrier_ctrs[current_op_id] < request.num_workers:
+                event = self._barrier_events[current_op_id]
+            else:
+                event = self._barrier_events[current_op_id]
+                event.set()
+                self._barrier_op_id += 1
+                self._barrier_ctrs[self._barrier_op_id] = 0
+                self._barrier_events[self._barrier_op_id] = threading.Event()
+
+        if event and self._barrier_ctrs[current_op_id] < request.num_workers:
+            event.wait()
+            with self.lock:
+                self._barrier_ctrs[current_op_id] -= 1
+                if self._barrier_ctrs[current_op_id] == 0:
+                    del self._barrier_ctrs[current_op_id]
+                    del self._barrier_events[current_op_id]
+
+        if request.root == 1:
+            reqs = self._sessions[request.session_id]["workers"]
+            peer = list(reqs.keys())[0]
+            req = reqs[peer]
+            return flashreduce_pb2.RdmaSessionResponse(rkey = req.rkey,
+                                                       raddr = req.raddr,
+                                                       qpn = req.qpn,
+                                                       psn = req.psn,
+                                                       gid_subnet = req.gid_subnet,
+                                                       gid_iface = req.gid_iface,
+                                                       lid = req.lid
+                                                       )
+        else:
+            req = self._sessions[request.session_id]["root"]
+            return flashreduce_pb2.RdmaSessionResponse(rkey = req.rkey,
+                                                       raddr = req.raddr,
+                                                       qpn = req.qpn,
+                                                       psn = req.psn,
+                                                       gid_subnet = req.gid_subnet,
+                                                       gid_iface = req.gid_iface,
+                                                       lid = req.lid
+                                                       )
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
