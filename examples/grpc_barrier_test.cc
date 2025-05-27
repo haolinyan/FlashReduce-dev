@@ -13,5 +13,10 @@ int main(int argc, char** argv) {
     uint32_t num_workers = 2;
     // 执行Barrier操作
     bool result = client.Barrier(num_workers);
+    // 执行broadcast操作
+    uint64_t value = 42;
+    uint32_t rank = atoi(argv[1]);
+    uint32_t root = 0;
+    uint64_t broadcasted_value = client.Broadcast(value, rank, num_workers, root);
     return 0;
 }

@@ -18,6 +18,10 @@ class Controller(SyncServicer):
         self._barrier_op_id = 0
         self._barrier_ctrs = {self._barrier_op_id: 0}
         self._barrier_events = {self._barrier_op_id: threading.Event()}
+        # Broadcast state
+        self._bcast_values = []
+        self._bcast_bitmap = []
+        self._bcast_events = []
 
     def run(self):
         self._server.start()
@@ -53,6 +57,48 @@ class Controller(SyncServicer):
                     del self._barrier_events[current_op_id]
 
         return flashreduce_pb2.BarrierResponse()
+    
+    def Broadcast(self, request, context):
+        idx = -1
+        with self.lock:
+            # Cleanup completed operations
+            for i in reversed(range(len(self._bcast_bitmap))):
+                if all(self._bcast_bitmap[i]):
+                    del self._bcast_bitmap[i]
+                    del self._bcast_values[i]
+                    del self._bcast_events[i]
+
+            # Find existing or create new operation
+            idx = -1
+            for i in range(len(self._bcast_bitmap)):
+                if not self._bcast_bitmap[i][request.rank]:
+                    idx = i
+                    break
+            if idx == -1:
+                idx = len(self._bcast_bitmap)
+                self._bcast_bitmap.append([False] * request.num_workers)
+                self._bcast_values.append(None)
+                self._bcast_events.append(threading.Event())
+
+            # Handle request
+            if request.rank == request.root:
+                self._bcast_values[idx] = request.value
+                self._bcast_events[idx].set()
+                self._bcast_bitmap[idx][request.rank] = True
+            else:
+                if self._bcast_values[idx] is None:
+                    current_event = self._bcast_events[idx]
+                    current_idx = idx
+                    self.lock.release()
+                    try:
+                        current_event.wait()
+                    finally:
+                        self.lock.acquire()
+                    self._bcast_bitmap[current_idx][request.rank] = True
+                else:
+                    self._bcast_bitmap[idx][request.rank] = True
+
+        return flashreduce_pb2.BroadcastResponse(value=self._bcast_values[idx])
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
